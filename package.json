@@ -1,0 +1,34 @@
+{
+  "name": "harmony-node-sdk",
+  "version": "1.0.0",
+  "description": "A Node.JS SDK for Harmony",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepublish": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harmony-development/harmony-node-sdk.git"
+  },
+  "keywords": [
+    "sdk",
+    "harmony",
+    "chat-app"
+  ],
+  "author": "Harmony",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/harmony-development/harmony-node-sdk/issues"
+  },
+  "homepage": "https://github.com/harmony-development/harmony-node-sdk#readme",
+  "devDependencies": {
+    "@types/node-fetch": "^2.5.7",
+    "typescript": "^3.9.3"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.0"
+  }
+}
