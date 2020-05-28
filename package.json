@@ -26,9 +26,13 @@
   "homepage": "https://github.com/harmony-development/harmony-node-sdk#readme",
   "devDependencies": {
     "@types/node-fetch": "^2.5.7",
+    "@types/ws": "^7.2.4",
     "typescript": "^3.9.3"
   },
   "dependencies": {
-    "node-fetch": "^2.6.0"
+    "event-emitter": "^0.3.5",
+    "eventemitter3": "^4.0.4",
+    "node-fetch": "^2.6.0",
+    "ws": "^7.3.0"
   }
 }

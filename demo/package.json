@@ -2,14 +2,17 @@
   "name": "demo",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "tsc && node dist/index.js"
   },
   "author": "Harmony",
   "license": "ISC",
   "dependencies": {
     "harmony-node-sdk": "file:.."
+  },
+  "devDependencies": {
+    "typescript": "^3.9.3"
   }
 }

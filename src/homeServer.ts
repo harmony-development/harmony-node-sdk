@@ -1,3 +1,5 @@
+import { ReqHelper } from "./reqHelper";
+
 export interface IHomeServerSettings {
   SSL: boolean;
   port: string;
@@ -31,5 +33,31 @@ export class HomeServer {
     url.port = this.settings?.port || "";
     url.pathname = `/api/${kit}/v${version}/${path}`;
     return url;
+  }
+
+  getSocketPath(): URL {
+    const url = new URL(this.ip);
+    url.protocol = this.settings?.SSL ? "wss:" : "ws";
+    url.port = this.settings?.port || "";
+    url.pathname = "/api/socket";
+    return url;
+  }
+
+  async loginWithEmail(email: string, password: string) {
+    return ReqHelper.post<{
+      session: string;
+    }>(this.API(Kit.CORE, 1, "login").toString(), null, {
+      email,
+      password,
+    });
+  }
+
+  async loginWithToken(origin: HomeServer, token: string) {
+    return ReqHelper.post<{
+      session: string;
+    }>(this.API(Kit.CORE, 1, "login").toString(), null, {
+      domain: origin.toURL().toString(),
+      authtoken: token,
+    });
   }
 }
