@@ -23,6 +23,19 @@ interface IMessage {
   Embeds: any; // TODO: pin down the type of this variable
 }
 
+interface IGetGuildData {
+  guildName: string;
+  guildOwner: string;
+  guildPicture: string;
+}
+
+interface IGetChannelsData {
+  channels: {
+    name: string;
+    id: string;
+  }[];
+}
+
 type SocketResponses = {
   [SocketEvent.SOCKET_CLOSE]: [CloseEvent];
   [SocketEvent.SOCKET_ERROR]: [ErrorEvent];
@@ -100,6 +113,32 @@ export class HarmonyConnection {
   async deleteGuild(guildID: string) {
     return ReqHelper.delete(
       this.server.API(Kit.CORE, 1, `guilds/${guildID}`).toString(),
+      null,
+      this.session
+    );
+  }
+
+  async getGuild(guildID: string) {
+    return ReqHelper.get<IGetGuildData>(
+      this.server.API(Kit.CORE, 1, `guilds/${guildID}`).toString(),
+      null,
+      this.session
+    );
+  }
+
+  async getMembers(guildID: string) {
+    return ReqHelper.get<{
+      members: string[];
+    }>(
+      this.server.API(Kit.CORE, 1, `guilds/${guildID}/members`).toString(),
+      null,
+      this.session
+    );
+  }
+
+  async getChannels(guildID: string) {
+    return ReqHelper.get<IGetChannelsData>(
+      this.server.API(Kit.CORE, 1, `guilds/${guildID}/channels`).toString(),
       null,
       this.session
     );
