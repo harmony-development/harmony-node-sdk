@@ -1,6 +1,8 @@
-import { HomeServer } from "./homeServer";
+import { HomeServer, Kit } from "./homeServer";
 import EventEmitter from "eventemitter3";
+import FormData from "form-data";
 import WebSocket, { CloseEvent, OpenEvent } from "ws";
+import { ReqHelper } from "./reqHelper";
 
 export enum SocketEvent {
   SOCKET_CLOSE = "socket_close",
@@ -37,8 +39,8 @@ export class HarmonyConnection {
   constructor(server: HomeServer, session: string) {
     this.server = server;
     this.session = session;
-    this.ws = new WebSocket(server.getSocketPath().toString());
     this.events = new EventEmitter<SocketResponses>();
+    this.ws = new WebSocket(server.getSocketPath().toString());
     this.bindEvents();
   }
 
@@ -57,6 +59,49 @@ export class HarmonyConnection {
     );
     this.ws.addEventListener("open", (ev) =>
       this.events.emit(SocketEvent.SOCKET_OPEN, ev)
+    );
+  }
+
+  async createGuild(guildName: string) {
+    return ReqHelper.post<{
+      guild: string;
+    }>(
+      this.server.API(Kit.CORE, 1, "guilds").toString(),
+      null,
+      {
+        guildName,
+      },
+      this.session
+    );
+  }
+
+  async updateGuildName(guildID: string, name: string) {
+    return ReqHelper.patch(
+      this.server.API(Kit.CORE, 1, `guilds/${guildID}/name`).toString(),
+      null,
+      {
+        name,
+      },
+      this.session
+    );
+  }
+
+  async updateGuildPicture(guildID: string, picture: File) {
+    const data = new FormData();
+    data.append("files", picture);
+    return ReqHelper.patch(
+      this.server.API(Kit.CORE, 1, `guilds/${guildID}/picture`).toString(),
+      null,
+      data,
+      this.session
+    );
+  }
+
+  async deleteGuild(guildID: string) {
+    return ReqHelper.delete(
+      this.server.API(Kit.CORE, 1, `guilds/${guildID}`).toString(),
+      null,
+      this.session
     );
   }
 }
