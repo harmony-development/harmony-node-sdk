@@ -36,6 +36,14 @@ interface IGetChannelsData {
   }[];
 }
 
+interface IGetInvitesData {
+  invites: {
+    inviteID: string;
+    uses: number;
+    possibleUses: number | null;
+  }[];
+}
+
 type SocketResponses = {
   [SocketEvent.SOCKET_CLOSE]: [CloseEvent];
   [SocketEvent.SOCKET_ERROR]: [ErrorEvent];
@@ -78,24 +86,23 @@ export class HarmonyConnection {
   async createGuild(guildName: string) {
     return ReqHelper.post<{
       guild: string;
-    }>(
-      this.server.API(Kit.CORE, 1, "guilds").toString(),
-      null,
-      {
+    }>(this.server.API(Kit.CORE, 1, "guilds").toString(), {
+      body: {
         guildName,
       },
-      this.session
-    );
+      authorization: this.session,
+    });
   }
 
   async updateGuildName(guildID: string, name: string) {
     return ReqHelper.patch(
       this.server.API(Kit.CORE, 1, `guilds/${guildID}/name`).toString(),
-      null,
       {
-        name,
-      },
-      this.session
+        body: {
+          name,
+        },
+        authorization: this.session,
+      }
     );
   }
 
@@ -104,43 +111,102 @@ export class HarmonyConnection {
     data.append("files", picture);
     return ReqHelper.patch(
       this.server.API(Kit.CORE, 1, `guilds/${guildID}/picture`).toString(),
-      null,
-      data,
-      this.session
+      {
+        body: data,
+        authorization: this.session,
+      }
     );
   }
 
   async deleteGuild(guildID: string) {
     return ReqHelper.delete(
       this.server.API(Kit.CORE, 1, `guilds/${guildID}`).toString(),
-      null,
-      this.session
+      {
+        authorization: this.session,
+      }
     );
   }
 
   async getGuild(guildID: string) {
     return ReqHelper.get<IGetGuildData>(
       this.server.API(Kit.CORE, 1, `guilds/${guildID}`).toString(),
-      null,
-      this.session
+      {
+        authorization: this.session,
+      }
     );
   }
 
   async getMembers(guildID: string) {
     return ReqHelper.get<{
       members: string[];
-    }>(
-      this.server.API(Kit.CORE, 1, `guilds/${guildID}/members`).toString(),
-      null,
-      this.session
-    );
+    }>(this.server.API(Kit.CORE, 1, `guilds/${guildID}/members`).toString(), {
+      authorization: this.session,
+    });
   }
 
   async getChannels(guildID: string) {
     return ReqHelper.get<IGetChannelsData>(
       this.server.API(Kit.CORE, 1, `guilds/${guildID}/channels`).toString(),
-      null,
-      this.session
+      {
+        authorization: this.session,
+      }
+    );
+  }
+
+  async addChannel(guildID: string, channelName: string) {
+    return ReqHelper.post(
+      this.server.API(Kit.CORE, 1, `guilds/${guildID}/channels`).toString(),
+      {
+        body: {
+          channelName,
+        },
+        authorization: this.session,
+      }
+    );
+  }
+
+  async deleteChannel(guildID: string, channelID: string) {
+    return ReqHelper.delete(
+      this.server
+        .API(Kit.CORE, 1, `guilds/${guildID}/channels/${channelID}`)
+        .toString(),
+      {
+        authorization: this.session,
+      }
+    );
+  }
+
+  async createInvite(guildID: string, name: string) {
+    return ReqHelper.post<{
+      invite: string;
+    }>(this.server.API(Kit.CORE, 1, `guilds/${guildID}/invites`).toString(), {
+      body: {
+        name,
+      },
+      authorization: this.session,
+    });
+  }
+
+  async getInvites(guildID: string) {
+    return ReqHelper.get<IGetInvitesData>(
+      this.server.API(Kit.CORE, 1, `guilds/${guildID}/invites`).toString(),
+      {
+        authorization: this.session,
+      }
+    );
+  }
+
+  async deleteInvite(guildID: string, inviteID: string) {
+    return ReqHelper.delete(
+      this.server
+        .API(Kit.CORE, 1, `guilds/${guildID}/invites/${inviteID}`)
+        .toString(),
+      {
+        body: {
+          invite: inviteID,
+        },
+        authorization: this.session,
+      }
     );
   }
 }

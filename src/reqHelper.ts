@@ -4,65 +4,54 @@ type GetParams = {
   [key: string]: any;
 } | null;
 
+interface RequestSettings {
+  params?: GetParams;
+  body?: any;
+  authorization?: string;
+}
+
 export class ReqHelper {
-  static async get<T>(url: string, params: GetParams, authorization?: string) {
-    return this.http<T>("GET", url, params, null);
+  static async get<T>(url: string, settings: RequestSettings) {
+    return this.http<T>("GET", url, settings);
   }
 
-  static async post<T>(
-    url: string,
-    args: GetParams,
-    body: any,
-    authorization?: string
-  ) {
-    return await this.http<T>("POST", url, args, body);
+  static async post<T>(url: string, settings: RequestSettings) {
+    return await this.http<T>("POST", url, settings);
   }
 
-  static async put<T>(
-    url: string,
-    args: GetParams,
-    body: any,
-    authorization?: string
-  ) {
-    return await this.http<T>("PUT", url, args, body);
+  static async put<T>(url: string, settings: RequestSettings) {
+    return await this.http<T>("PUT", url, settings);
   }
 
-  static async patch<T>(
-    url: string,
-    args: GetParams,
-    body: any,
-    authorization?: string
-  ) {
-    return await this.http<T>("PATCH", url, args, body);
+  static async patch<T>(url: string, settings: RequestSettings) {
+    return await this.http<T>("PATCH", url, settings);
   }
 
-  static async delete<T>(url: string, args: GetParams, authorization?: string) {
-    return await this.http<T>("DELETE", url, args, null, authorization);
+  static async delete<T>(url: string, settings: RequestSettings) {
+    return await this.http<T>("DELETE", url, settings);
   }
 
   static async http<T>(
     method: string,
     rawURL: string,
-    params: GetParams,
-    body: any | null,
-    authorization?: string
+    settings: RequestSettings
   ) {
     const headers = new Headers();
-    if (authorization) {
-      headers.set("Authorization", authorization);
+    if (settings.authorization) {
+      headers.set("Authorization", settings.authorization);
     }
     const url = new URL(rawURL);
-    if (params) {
-      Object.keys(params).forEach((param) => {
-        url.searchParams.set(param, params[param]);
+    if (settings.params) {
+      Object.keys(settings.params).forEach((param) => {
+        url.searchParams.set(param, settings.params![param]);
       });
     }
-    if (body && !(body instanceof FormData)) {
-      body = JSON.stringify(body);
+    if (settings.body && !(settings.body instanceof FormData)) {
+      settings.body = JSON.stringify(settings.body);
       headers.set("Content-Type", "application/json");
     }
     const response = await fetch(url.toString(), {
-      body,
+      body: settings.body,
       headers,
       method,
     });
