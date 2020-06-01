@@ -1,4 +1,4 @@
-import { HomeServer, Kit } from "./homeServer";
+import { HomeServer, Kit } from "./HomeServer";
 import EventEmitter from "eventemitter3";
 import FormData from "form-data";
 import WebSocket, { CloseEvent, OpenEvent } from "ws";
@@ -24,9 +24,9 @@ interface IMessage {
 }
 
 interface IGetGuildData {
-  guildName: string;
-  guildOwner: string;
-  guildPicture: string;
+  GuildName: string;
+  GuildOwner: string;
+  GuildPicture: string;
 }
 
 interface IGetChannelsData {

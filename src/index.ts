@@ -1,2 +1,2 @@
-export * from "./homeServer";
-export * from "./connection";
+export * from "./HomeServer";
+export * from "./Connection";
