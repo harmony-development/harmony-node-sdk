@@ -209,4 +209,26 @@ export class HarmonyConnection {
       }
     );
   }
+
+  async getMessages(guildID: string, channelID: string): Promise<IMessage[]>;
+
+  async getMessages(
+    guildID: string,
+    channelID: string,
+    beforeMessage?: string
+  ) {
+    return ReqHelper.get<IMessage[]>(
+      this.server
+        .API(Kit.CORE, 1, `guilds/${guildID}/channels/${channelID}`)
+        .toString(),
+      {
+        authorization: this.session,
+        params: beforeMessage
+          ? {
+              before_message: beforeMessage,
+            }
+          : null,
+      }
+    );
+  }
 }

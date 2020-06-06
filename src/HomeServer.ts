@@ -46,18 +46,22 @@ export class HomeServer {
   async loginWithEmail(email: string, password: string) {
     return ReqHelper.post<{
       session: string;
-    }>(this.API(Kit.CORE, 1, "login").toString(), null, {
-      email,
-      password,
+    }>(this.API(Kit.CORE, 1, "login").toString(), {
+      body: {
+        email,
+        password,
+      },
     });
   }
 
   async loginWithToken(origin: HomeServer, token: string) {
     return ReqHelper.post<{
       session: string;
-    }>(this.API(Kit.CORE, 1, "login").toString(), null, {
-      domain: origin.toURL().toString(),
-      authtoken: token,
+    }>(this.API(Kit.CORE, 1, "login").toString(), {
+      body: {
+        domain: origin.toURL().toString(),
+        authtoken: token,
+      },
     });
   }
 }
