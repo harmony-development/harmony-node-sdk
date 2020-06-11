@@ -45,6 +45,19 @@ interface IGetInvitesData {
   }[];
 }
 
+interface IGetUserData {
+  username: string;
+  useravatar: string;
+  userstatus: string;
+}
+
+enum UserStatus {
+  ONLINE,
+  STREAMING,
+  IDLE,
+  OFFLINE,
+}
+
 type SocketResponses = {
   [SocketEvent.SOCKET_CLOSE]: [CloseEvent];
   [SocketEvent.SOCKET_ERROR]: [ErrorEvent];
@@ -369,6 +382,51 @@ export class HarmonyConnection {
           content,
           embeds,
           actions,
+        },
+      }
+    );
+  }
+
+  async getUser(userID: string) {
+    return ReqHelper.get<IGetUserData>(
+      this.server.API(Kit.PROFILE, 1, `users/${userID}`).toString(),
+      {
+        authorization: this.session,
+      }
+    );
+  }
+
+  async updateAvatar(newAvatar: File) {
+    const data = new FormData();
+    data.append("files", newAvatar);
+    return ReqHelper.patch(
+      this.server.API(Kit.PROFILE, 1, `users/~/avatar`).toString(),
+      {
+        body: data,
+        authorization: this.session,
+      }
+    );
+  }
+
+  async updateUsername(newUsername: string) {
+    return ReqHelper.get(
+      this.server.API(Kit.PROFILE, 1, `users/~/username`).toString(),
+      {
+        authorization: this.session,
+        body: {
+          username: newUsername,
+        },
+      }
+    );
+  }
+
+  async updateStatus(newStatus: UserStatus) {
+    return ReqHelper.get(
+      this.server.API(Kit.PROFILE, 1, `users/~/username`).toString(),
+      {
+        authorization: this.session,
+        body: {
+          status: newStatus,
         },
       }
     );
