@@ -19,7 +19,7 @@
     "chat-app"
   ],
   "author": "Harmony",
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "GPLv3",
   "bugs": {
     "url": "https://github.com/harmony-development/harmony-node-sdk/issues"
   },
