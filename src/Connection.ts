@@ -3,6 +3,7 @@ import EventEmitter from "eventemitter3";
 import FormData from "form-data";
 import WebSocket, { CloseEvent, OpenEvent } from "ws";
 import { ReqHelper } from "./reqHelper";
+import { IAction, IEmbed } from "./Embeds";
 
 export enum SocketEvent {
   SOCKET_CLOSE = "socket_close",
@@ -19,8 +20,8 @@ interface IMessage {
   CreatedAt: number;
   Message: string;
   Attachments: string[];
-  Actions: any; // TODO: pin down the type of this variable
-  Embeds: any; // TODO: pin down the type of this variable
+  Actions?: IAction;
+  Embeds?: IEmbed[];
 }
 
 interface IGetGuildData {
@@ -121,6 +122,15 @@ export class HarmonyConnection {
   async deleteGuild(guildID: string) {
     return ReqHelper.delete(
       this.server.API(Kit.CORE, 1, `guilds/${guildID}`).toString(),
+      {
+        authorization: this.session,
+      }
+    );
+  }
+
+  async getGuilds() {
+    return ReqHelper.get<string[]>(
+      this.server.API(Kit.PROFILE, 1, `users/~/guilds`).toString(),
       {
         authorization: this.session,
       }
@@ -228,6 +238,138 @@ export class HarmonyConnection {
               before_message: beforeMessage,
             }
           : null,
+      }
+    );
+  }
+
+  async deleteMessage(guildID: string, channelID: string, messageID: string) {
+    return ReqHelper.delete(
+      this.server
+        .API(
+          Kit.CORE,
+          1,
+          `guilds/${guildID}/channels/${channelID}/messages/${messageID}`
+        )
+        .toString(),
+      {
+        authorization: this.session,
+      }
+    );
+  }
+
+  async joinGuild(inviteID: string) {
+    return ReqHelper.post(
+      this.server.API(Kit.CORE, 1, `users/~/guilds/join`).toString(),
+      {
+        authorization: this.session,
+        body: {
+          invite_id: inviteID,
+        },
+      }
+    );
+  }
+
+  async leaveGuild(guildID: string) {
+    return ReqHelper.post(
+      this.server
+        .API(Kit.CORE, 1, `users/~/guilds/leave/${guildID}`)
+        .toString(),
+      {
+        authorization: this.session,
+      }
+    );
+  }
+
+  async sendMessage(
+    guildID: string,
+    channelID: string,
+    content: string
+  ): Promise<void>;
+
+  async sendMessage(
+    guildID: string,
+    channelID: string,
+    content: string,
+    embeds: IEmbed[]
+  ): Promise<void>;
+
+  async sendMessage(
+    guildID: string,
+    channelID: string,
+    content: string,
+    embeds: IEmbed[],
+    actions: IAction[]
+  ): Promise<void>;
+
+  async sendMessage(
+    guildID: string,
+    channelID: string,
+    content: string,
+    embeds?: IEmbed[],
+    actions?: IAction[]
+  ) {
+    return ReqHelper.post(
+      this.server
+        .API(Kit.CORE, 1, `guilds/${guildID}/channels/${channelID}/messages`)
+        .toString(),
+      {
+        authorization: this.session,
+        body: {
+          content,
+          embeds,
+          actions,
+        },
+      }
+    );
+  }
+
+  async updateMessage(
+    guildID: string,
+    channelID: string,
+    messageID: string,
+    content: string
+  ): Promise<void>;
+
+  async updateMessage(
+    guildID: string,
+    channelID: string,
+    messageID: string,
+    content: string,
+    embeds: IEmbed[]
+  ): Promise<void>;
+
+  async updateMessage(
+    guildID: string,
+    channelID: string,
+    messageID: string,
+    content: string,
+    embeds: IEmbed[],
+    actions: IAction[]
+  ): Promise<void>;
+
+  async updateMessage(
+    guildID: string,
+    channelID: string,
+    messageID: string,
+    content: string,
+    embeds?: IEmbed[],
+    actions?: IAction[]
+  ) {
+    return ReqHelper.post(
+      this.server
+        .API(
+          Kit.CORE,
+          1,
+          `guilds/${guildID}/channels/${channelID}/messages/${messageID}`
+        )
+        .toString(),
+      {
+        authorization: this.session,
+        body: {
+          content,
+          embeds,
+          actions,
+        },
       }
     );
   }

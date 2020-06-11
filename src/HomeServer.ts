@@ -7,6 +7,7 @@ export interface IHomeServerSettings {
 
 export enum Kit {
   CORE = "core",
+  PROFILE = "profile",
 }
 
 export class HomeServer {
