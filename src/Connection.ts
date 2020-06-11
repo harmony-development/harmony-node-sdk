@@ -130,7 +130,7 @@ export class HarmonyConnection {
 
   async getGuilds() {
     return ReqHelper.get<string[]>(
-      this.server.API(Kit.PROFILE, 1, `users/~/guilds`).toString(),
+      this.server.API(Kit.CORE, 1, `users/~/guilds`).toString(),
       {
         authorization: this.session,
       }
