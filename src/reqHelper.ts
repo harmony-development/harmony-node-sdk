@@ -1,4 +1,4 @@
-import fetch, { Headers } from 'node-fetch';
+import 'whatwg-fetch';
 
 type GetParams = {
   [key: string]: any;
