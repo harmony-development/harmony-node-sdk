@@ -1,6 +1,6 @@
 {
   "name": "@harmony-dev/harmony-node-sdk",
-  "version": "1.0.1",
+  "version": "1.1.1",
   "description": "A Node.JS SDK for Harmony",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -26,8 +26,8 @@
   "homepage": "https://github.com/harmony-development/harmony-node-sdk#readme",
   "devDependencies": {
     "@types/node-fetch": "^2.5.7",
-    "@types/ws": "^7.2.4",
-    "typescript": "^3.9.3"
+    "@types/ws": "^7.2.5",
+    "typescript": "^3.9.5"
   },
   "dependencies": {
     "event-emitter": "^0.3.5",

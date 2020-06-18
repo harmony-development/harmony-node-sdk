@@ -6,6 +6,7 @@ export interface IHomeServerSettings {
 }
 
 export enum Kit {
+  PROTOCOL = "protocol",
   CORE = "core",
   PROFILE = "profile",
 }
@@ -36,6 +37,14 @@ export class HomeServer {
     return url;
   }
 
+  protocol(path: string): URL {
+    const url = new URL(this.ip);
+    url.protocol = this.settings?.SSL ? "https:" : "http:";
+    url.port = this.settings?.port || "";
+    url.pathname = `/api/protocol/${path}`;
+    return url;
+  }
+
   getSocketPath(): URL {
     const url = new URL(this.ip);
     url.protocol = this.settings?.SSL ? "wss:" : "ws";
@@ -44,10 +53,22 @@ export class HomeServer {
     return url;
   }
 
+  async register(email: string, username: string, password: string) {
+    return ReqHelper.post<{
+      session: string;
+    }>(this.protocol("register").toString(), {
+      body: {
+        email,
+        username,
+        password,
+      },
+    });
+  }
+
   async loginWithEmail(email: string, password: string) {
     return ReqHelper.post<{
       session: string;
-    }>(this.API(Kit.CORE, 1, "login").toString(), {
+    }>(this.protocol("login").toString(), {
       body: {
         email,
         password,
@@ -58,7 +79,7 @@ export class HomeServer {
   async loginWithToken(origin: HomeServer, token: string) {
     return ReqHelper.post<{
       session: string;
-    }>(this.API(Kit.CORE, 1, "login").toString(), {
+    }>(this.protocol("login").toString(), {
       body: {
         domain: origin.toURL().toString(),
         authtoken: token,
