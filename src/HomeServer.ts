@@ -1,4 +1,4 @@
-import { ReqHelper } from "./reqHelper";
+import { ReqHelper } from './reqHelper';
 
 export interface IHomeServerSettings {
   SSL: boolean;
@@ -6,9 +6,9 @@ export interface IHomeServerSettings {
 }
 
 export enum Kit {
-  PROTOCOL = "protocol",
-  CORE = "core",
-  PROFILE = "profile",
+  PROTOCOL = 'protocol',
+  CORE = 'core',
+  PROFILE = 'profile',
 }
 
 export class HomeServer {
@@ -16,7 +16,6 @@ export class HomeServer {
   settings?: IHomeServerSettings;
 
   constructor(ip: string);
-  constructor(ip: string, settings?: IHomeServerSettings);
   constructor(ip: string, settings?: IHomeServerSettings) {
     this.ip = ip;
     this.settings = settings;
@@ -24,39 +23,39 @@ export class HomeServer {
 
   toURL(): URL {
     const url = new URL(this.ip);
-    url.protocol = this.settings?.SSL ? "https:" : "http:";
-    url.port = this.settings?.port || "";
+    url.protocol = this.settings?.SSL ? 'https:' : 'http:';
+    url.port = this.settings?.port || '';
     return url;
   }
 
   API(kit: Kit, version: number, path: string): URL {
     const url = new URL(this.ip);
-    url.protocol = this.settings?.SSL ? "https:" : "http:";
-    url.port = this.settings?.port || "";
+    url.protocol = this.settings?.SSL ? 'https:' : 'http:';
+    url.port = this.settings?.port || '';
     url.pathname = `/api/${kit}/v${version}/${path}`;
     return url;
   }
 
   protocol(path: string): URL {
     const url = new URL(this.ip);
-    url.protocol = this.settings?.SSL ? "https:" : "http:";
-    url.port = this.settings?.port || "";
+    url.protocol = this.settings?.SSL ? 'https:' : 'http:';
+    url.port = this.settings?.port || '';
     url.pathname = `/api/protocol/${path}`;
     return url;
   }
 
   getSocketPath(): URL {
     const url = new URL(this.ip);
-    url.protocol = this.settings?.SSL ? "wss:" : "ws";
-    url.port = this.settings?.port || "";
-    url.pathname = "/api/socket";
+    url.protocol = this.settings?.SSL ? 'wss:' : 'ws';
+    url.port = this.settings?.port || '';
+    url.pathname = '/api/socket';
     return url;
   }
 
   async register(email: string, username: string, password: string) {
     return ReqHelper.post<{
       session: string;
-    }>(this.protocol("register").toString(), {
+    }>(this.protocol('register').toString(), {
       body: {
         email,
         username,
@@ -68,7 +67,7 @@ export class HomeServer {
   async loginWithEmail(email: string, password: string) {
     return ReqHelper.post<{
       session: string;
-    }>(this.protocol("login").toString(), {
+    }>(this.protocol('login').toString(), {
       body: {
         email,
         password,
@@ -79,7 +78,7 @@ export class HomeServer {
   async loginWithToken(origin: HomeServer, token: string) {
     return ReqHelper.post<{
       session: string;
-    }>(this.protocol("login").toString(), {
+    }>(this.protocol('login').toString(), {
       body: {
         domain: origin.toURL().toString(),
         authtoken: token,

@@ -1,39 +1,126 @@
 {
   "name": "@harmony-dev/harmony-node-sdk",
-  "version": "1.1.1",
+  "version": "1.1.4",
   "description": "A Node.JS SDK for Harmony",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsc",
-    "prepublish": "npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "keywords": [],
+  "main": "dist/harmony-node-sdk.umd.js",
+  "module": "dist/harmony-node-sdk.es5.js",
+  "typings": "dist/types/harmony-node-sdk.d.ts",
+  "files": [
+    "dist"
+  ],
+  "author": "Harmony Development",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/harmony-development/harmony-node-sdk.git"
   },
-  "keywords": [
-    "sdk",
-    "harmony",
-    "chat-app"
-  ],
-  "author": "Harmony",
-  "license": "GPLv3",
-  "bugs": {
-    "url": "https://github.com/harmony-development/harmony-node-sdk/issues"
+  "license": "GPL-3.0",
+  "engines": {
+    "node": ">=6.0.0"
   },
-  "homepage": "https://github.com/harmony-development/harmony-node-sdk#readme",
+  "scripts": {
+    "lint": "tslint  --project tsconfig.json -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
+    "prebuild": "rimraf dist",
+    "build": "tsc --module commonjs && rollup -c rollup.config.ts",
+    "start": "rollup -c rollup.config.ts -w",
+    "test": "jest --coverage",
+    "test:watch": "jest --coverage --watch",
+    "test:prod": "npm run lint && npm run test -- --no-cache",
+    "deploy-docs": "ts-node tools/gh-pages-publish",
+    "report-coverage": "cat ./coverage/lcov.info | coveralls",
+    "commit": "git-cz",
+    "semantic-release": "semantic-release",
+    "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
+    "precommit": "lint-staged",
+    "travis-deploy-once": "travis-deploy-once"
+  },
+  "lint-staged": {
+    "{src,test}/**/*.ts": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    }
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "ts-jest"
+    },
+    "testEnvironment": "node",
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 95,
+        "lines": 95,
+        "statements": 95
+      }
+    },
+    "collectCoverageFrom": [
+      "src/*.{js,ts}"
+    ]
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuote": true
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
   "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "@rollup/plugin-commonjs": "^13.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^8.0.1",
+    "@types/jest": "^26.0.0",
+    "@types/node": "^14.0.13",
     "@types/node-fetch": "^2.5.7",
     "@types/ws": "^7.2.5",
-    "typescript": "^3.9.5"
+    "colors": "^1.3.2",
+    "commitizen": "^4.1.2",
+    "coveralls": "^3.0.2",
+    "cross-env": "^7.0.2",
+    "cz-conventional-changelog": "^3.2.0",
+    "eventemitter3": "^4.0.4",
+    "husky": "^4.2.5",
+    "jest": "^26.0.1",
+    "jest-config": "^26.0.1",
+    "lint-staged": "^10.2.11",
+    "lodash.camelcase": "^4.3.0",
+    "prettier": "^2.0.5",
+    "prompt": "^1.0.0",
+    "replace-in-file": "^6.1.0",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.17.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-sourcemaps": "^0.6.2",
+    "rollup-plugin-typescript2": "^0.27.1",
+    "semantic-release": "^17.0.8",
+    "shelljs": "^0.8.3",
+    "ts-jest": "^26.1.0",
+    "ts-node": "^8.10.2",
+    "tslint": "^6.1.2",
+    "tslint-config-prettier": "^1.15.0",
+    "tslint-config-standard": "^9.0.0",
+    "typescript": "^3.0.3"
   },
   "dependencies": {
-    "event-emitter": "^0.3.5",
-    "eventemitter3": "^4.0.4",
     "form-data": "^3.0.0",
-    "node-fetch": "^2.6.0",
     "ws": "^7.3.0"
   }
 }
