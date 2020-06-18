@@ -1,13 +1,13 @@
 export enum ActionType {
   NORMAL,
   PRIMARY,
-  DESTRUCTIVE,
+  DESTRUCTIVE
 }
 
 export enum FieldPresentation {
   DATA,
   CAPTIONED_IMAGE,
-  ROW,
+  ROW
 }
 
 export enum ActionPresentation {
@@ -15,7 +15,7 @@ export enum ActionPresentation {
   DROPDOWN,
   MENU,
   SMALL_ENTRY,
-  LARGE_ENTRY,
+  LARGE_ENTRY
 }
 
 export interface IAction {
