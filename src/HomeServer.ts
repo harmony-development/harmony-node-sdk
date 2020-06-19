@@ -1,11 +1,6 @@
 import { ReqHelper } from './reqHelper';
 import URL from 'url-parse';
 
-export interface IHomeServerSettings {
-  SSL: boolean;
-  port: string;
-}
-
 export enum Kit {
   PROTOCOL = 'protocol',
   CORE = 'core',
@@ -14,40 +9,31 @@ export enum Kit {
 
 export class HomeServer {
   host: string;
-  settings?: IHomeServerSettings;
 
-  constructor(host: string, settings?: IHomeServerSettings) {
+  constructor(host: string) {
     this.host = host;
-    this.settings = settings;
   }
 
   toURL(): URL {
     const url = new URL(this.host);
-    url.set('protocol', this.settings?.SSL ? 'https:' : 'http:');
-    url.set('port', this.settings?.port || '');
     return url;
   }
 
   API(kit: Kit, version: number, path: string): URL {
     const url = new URL(this.host);
-    url.set('protocol', this.settings?.SSL ? 'https:' : 'http:');
-    url.set('port', this.settings?.port || '');
     url.set('pathname', `/api/${kit}/v${version}/${path}`);
     return url;
   }
 
   protocol(path: string): URL {
     const url = new URL(this.host);
-    url.set('protocol', this.settings?.SSL ? 'https:' : 'http:');
-    url.set('port', this.settings?.port || '');
     url.set('pathname', `/api/protocol/${path}`);
     return url;
   }
 
   getSocketPath(): URL {
     const url = new URL(this.host);
-    url.set('protocol', this.settings?.SSL ? 'wss:' : 'ws');
-    url.set('port', this.settings?.port || '');
+    url.set('protocol', url.protocol === 'https:' ? 'wss:' : 'ws');
     url.set('pathname', '/api/socket');
     return url;
   }
