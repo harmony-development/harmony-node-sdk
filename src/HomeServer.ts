@@ -1,4 +1,5 @@
 import { ReqHelper } from './reqHelper';
+import URL from 'url-parse';
 
 export interface IHomeServerSettings {
   SSL: boolean;
@@ -12,43 +13,42 @@ export enum Kit {
 }
 
 export class HomeServer {
-  ip: string;
+  host: string;
   settings?: IHomeServerSettings;
 
-  constructor(ip: string);
-  constructor(ip: string, settings?: IHomeServerSettings) {
-    this.ip = ip;
+  constructor(host: string, settings?: IHomeServerSettings) {
+    this.host = host;
     this.settings = settings;
   }
 
   toURL(): URL {
-    const url = new URL(this.ip);
-    url.protocol = this.settings?.SSL ? 'https:' : 'http:';
-    url.port = this.settings?.port || '';
+    const url = new URL(this.host);
+    url.set('protocol', this.settings?.SSL ? 'https:' : 'http:');
+    url.set('port', this.settings?.port || '');
     return url;
   }
 
   API(kit: Kit, version: number, path: string): URL {
-    const url = new URL(this.ip);
-    url.protocol = this.settings?.SSL ? 'https:' : 'http:';
-    url.port = this.settings?.port || '';
-    url.pathname = `/api/${kit}/v${version}/${path}`;
+    const url = new URL(this.host);
+    url.set('protocol', this.settings?.SSL ? 'https:' : 'http:');
+    url.set('port', this.settings?.port || '');
+    url.set('pathname', `/api/${kit}/v${version}/${path}`);
     return url;
   }
 
   protocol(path: string): URL {
-    const url = new URL(this.ip);
-    url.protocol = this.settings?.SSL ? 'https:' : 'http:';
-    url.port = this.settings?.port || '';
-    url.pathname = `/api/protocol/${path}`;
+    const url = new URL(this.host);
+    url.set('protocol', this.settings?.SSL ? 'https:' : 'http:');
+    url.set('port', this.settings?.port || '');
+    url.set('pathname', `/api/protocol/${path}`);
     return url;
   }
 
   getSocketPath(): URL {
-    const url = new URL(this.ip);
-    url.protocol = this.settings?.SSL ? 'wss:' : 'ws';
-    url.port = this.settings?.port || '';
-    url.pathname = '/api/socket';
+    const url = new URL(this.host);
+    url.set('protocol', this.settings?.SSL ? 'wss:' : 'ws');
+    url.set('port', this.settings?.port || '');
+    url.set('pathname', '/api/socket');
     return url;
   }
 

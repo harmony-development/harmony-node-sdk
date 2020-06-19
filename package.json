@@ -1,6 +1,6 @@
 {
   "name": "@harmony-dev/harmony-node-sdk",
-  "version": "1.1.7",
+  "version": "1.2.8",
   "description": "A Node.JS SDK for Harmony",
   "keywords": [],
   "main": "dist/harmony-node-sdk.umd.js",
@@ -119,9 +119,11 @@
     "typescript": "^3.0.3"
   },
   "dependencies": {
+    "@types/url-parse": "^1.4.3",
     "form-data": "^3.0.0",
     "isomorphic-fetch": "^2.2.1",
     "isomorphic-ws": "^4.0.1",
+    "url-parse": "^1.4.7",
     "ws": "^7.3.0"
   }
 }
