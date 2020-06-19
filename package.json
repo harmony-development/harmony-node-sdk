@@ -1,6 +1,6 @@
 {
   "name": "@harmony-dev/harmony-node-sdk",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "A Node.JS SDK for Harmony",
   "keywords": [],
   "main": "dist/harmony-node-sdk.umd.js",
@@ -120,6 +120,7 @@
   },
   "dependencies": {
     "form-data": "^3.0.0",
+    "isomorphic-ws": "^4.0.1",
     "whatwg-fetch": "^3.0.0",
     "ws": "^7.3.0"
   }
