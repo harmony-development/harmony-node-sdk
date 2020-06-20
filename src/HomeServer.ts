@@ -33,7 +33,7 @@ export class HomeServer {
 
   getSocketPath(): URL {
     const url = new URL(this.host, {});
-    url.set('protocol', url.protocol === 'https:' ? 'wss:' : 'ws');
+    url.set('protocol', url.protocol === 'https:' ? 'wss:' : 'ws:');
     url.set('pathname', '/api/socket');
     return url;
   }
