@@ -96,7 +96,7 @@ export class HarmonyConnection {
   async createGuild(guildName: string) {
     return ReqHelper.post<{
       guild: string;
-    }>(this.server.API(Kit.CORE, 1, 'guilds').toString(), {
+    }>(this.server.API(Kit.CORE, 1, 'guilds'), {
       body: {
         guildName,
       },
@@ -105,7 +105,7 @@ export class HarmonyConnection {
   }
 
   async updateGuildName(guildID: string, name: string) {
-    return ReqHelper.patch(this.server.API(Kit.CORE, 1, `guilds/${guildID}/name`).toString(), {
+    return ReqHelper.patch(this.server.API(Kit.CORE, 1, `guilds/${guildID}/name`), {
       body: {
         name,
       },
@@ -116,44 +116,41 @@ export class HarmonyConnection {
   async updateGuildPicture(guildID: string, picture: File) {
     const data = new FormData();
     data.append('files', picture);
-    return ReqHelper.patch(this.server.API(Kit.CORE, 1, `guilds/${guildID}/picture`).toString(), {
+    return ReqHelper.patch(this.server.API(Kit.CORE, 1, `guilds/${guildID}/picture`), {
       body: data,
       authorization: this.session,
     });
   }
 
   async deleteGuild(guildID: string) {
-    return ReqHelper.delete(this.server.API(Kit.CORE, 1, `guilds/${guildID}`).toString(), {
+    return ReqHelper.delete(this.server.API(Kit.CORE, 1, `guilds/${guildID}`), {
       authorization: this.session,
     });
   }
 
   async getGuilds() {
-    return ReqHelper.get<string[]>(this.server.API(Kit.CORE, 1, `users/~/guilds`).toString(), {
+    return ReqHelper.get<string[]>(this.server.API(Kit.CORE, 1, `users/~/guilds`), {
       authorization: this.session,
     });
   }
 
   async getGuild(guildID: string) {
-    return ReqHelper.get<IGetGuildData>(
-      this.server.API(Kit.CORE, 1, `guilds/${guildID}`).toString(),
-      {
-        authorization: this.session,
-      }
-    );
+    return ReqHelper.get<IGetGuildData>(this.server.API(Kit.CORE, 1, `guilds/${guildID}`), {
+      authorization: this.session,
+    });
   }
 
   async getMembers(guildID: string) {
     return ReqHelper.get<{
       members: string[];
-    }>(this.server.API(Kit.CORE, 1, `guilds/${guildID}/members`).toString(), {
+    }>(this.server.API(Kit.CORE, 1, `guilds/${guildID}/members`), {
       authorization: this.session,
     });
   }
 
   async getChannels(guildID: string) {
     return ReqHelper.get<IGetChannelsData>(
-      this.server.API(Kit.CORE, 1, `guilds/${guildID}/channels`).toString(),
+      this.server.API(Kit.CORE, 1, `guilds/${guildID}/channels`),
       {
         authorization: this.session,
       }
@@ -161,7 +158,7 @@ export class HarmonyConnection {
   }
 
   async addChannel(guildID: string, channelName: string) {
-    return ReqHelper.post(this.server.API(Kit.CORE, 1, `guilds/${guildID}/channels`).toString(), {
+    return ReqHelper.post(this.server.API(Kit.CORE, 1, `guilds/${guildID}/channels`), {
       body: {
         channelName,
       },
@@ -171,7 +168,7 @@ export class HarmonyConnection {
 
   async deleteChannel(guildID: string, channelID: string) {
     return ReqHelper.delete(
-      this.server.API(Kit.CORE, 1, `guilds/${guildID}/channels/${channelID}`).toString(),
+      this.server.API(Kit.CORE, 1, `guilds/${guildID}/channels/${channelID}`),
       {
         authorization: this.session,
       }
@@ -181,7 +178,7 @@ export class HarmonyConnection {
   async createInvite(guildID: string, name: string) {
     return ReqHelper.post<{
       invite: string;
-    }>(this.server.API(Kit.CORE, 1, `guilds/${guildID}/invites`).toString(), {
+    }>(this.server.API(Kit.CORE, 1, `guilds/${guildID}/invites`), {
       body: {
         name,
       },
@@ -191,7 +188,7 @@ export class HarmonyConnection {
 
   async getInvites(guildID: string) {
     return ReqHelper.get<IGetInvitesData>(
-      this.server.API(Kit.CORE, 1, `guilds/${guildID}/invites`).toString(),
+      this.server.API(Kit.CORE, 1, `guilds/${guildID}/invites`),
       {
         authorization: this.session,
       }
@@ -199,22 +196,19 @@ export class HarmonyConnection {
   }
 
   async deleteInvite(guildID: string, inviteID: string) {
-    return ReqHelper.delete(
-      this.server.API(Kit.CORE, 1, `guilds/${guildID}/invites/${inviteID}`).toString(),
-      {
-        body: {
-          invite: inviteID,
-        },
-        authorization: this.session,
-      }
-    );
+    return ReqHelper.delete(this.server.API(Kit.CORE, 1, `guilds/${guildID}/invites/${inviteID}`), {
+      body: {
+        invite: inviteID,
+      },
+      authorization: this.session,
+    });
   }
 
   async getMessages(guildID: string, channelID: string): Promise<IMessage[]>;
 
   async getMessages(guildID: string, channelID: string, beforeMessage?: string) {
     return ReqHelper.get<IMessage[]>(
-      this.server.API(Kit.CORE, 1, `guilds/${guildID}/channels/${channelID}`).toString(),
+      this.server.API(Kit.CORE, 1, `guilds/${guildID}/channels/${channelID}`),
       {
         authorization: this.session,
         params: beforeMessage
@@ -228,9 +222,7 @@ export class HarmonyConnection {
 
   async deleteMessage(guildID: string, channelID: string, messageID: string) {
     return ReqHelper.delete(
-      this.server
-        .API(Kit.CORE, 1, `guilds/${guildID}/channels/${channelID}/messages/${messageID}`)
-        .toString(),
+      this.server.API(Kit.CORE, 1, `guilds/${guildID}/channels/${channelID}/messages/${messageID}`),
       {
         authorization: this.session,
       }
@@ -238,7 +230,7 @@ export class HarmonyConnection {
   }
 
   async joinGuild(inviteID: string) {
-    return ReqHelper.post(this.server.API(Kit.CORE, 1, `users/~/guilds/join`).toString(), {
+    return ReqHelper.post(this.server.API(Kit.CORE, 1, `users/~/guilds/join`), {
       authorization: this.session,
       body: {
         invite_id: inviteID,
@@ -247,12 +239,9 @@ export class HarmonyConnection {
   }
 
   async leaveGuild(guildID: string) {
-    return ReqHelper.post(
-      this.server.API(Kit.CORE, 1, `users/~/guilds/leave/${guildID}`).toString(),
-      {
-        authorization: this.session,
-      }
-    );
+    return ReqHelper.post(this.server.API(Kit.CORE, 1, `users/~/guilds/leave/${guildID}`), {
+      authorization: this.session,
+    });
   }
 
   async sendMessage(
@@ -271,7 +260,7 @@ export class HarmonyConnection {
     actions?: IAction[]
   ) {
     return ReqHelper.post(
-      this.server.API(Kit.CORE, 1, `guilds/${guildID}/channels/${channelID}/messages`).toString(),
+      this.server.API(Kit.CORE, 1, `guilds/${guildID}/channels/${channelID}/messages`),
       {
         authorization: this.session,
         body: {
@@ -292,9 +281,7 @@ export class HarmonyConnection {
     actions?: IAction[]
   ) {
     return ReqHelper.post(
-      this.server
-        .API(Kit.CORE, 1, `guilds/${guildID}/channels/${channelID}/messages/${messageID}`)
-        .toString(),
+      this.server.API(Kit.CORE, 1, `guilds/${guildID}/channels/${channelID}/messages/${messageID}`),
       {
         authorization: this.session,
         body: {
@@ -307,25 +294,22 @@ export class HarmonyConnection {
   }
 
   async getUser(userID: string) {
-    return ReqHelper.get<IGetUserData>(
-      this.server.API(Kit.PROFILE, 1, `users/${userID}`).toString(),
-      {
-        authorization: this.session,
-      }
-    );
+    return ReqHelper.get<IGetUserData>(this.server.API(Kit.PROFILE, 1, `users/${userID}`), {
+      authorization: this.session,
+    });
   }
 
   async updateAvatar(newAvatar: File) {
     const data = new FormData();
     data.append('files', newAvatar);
-    return ReqHelper.patch(this.server.API(Kit.PROFILE, 1, `users/~/avatar`).toString(), {
+    return ReqHelper.patch(this.server.API(Kit.PROFILE, 1, `users/~/avatar`), {
       body: data,
       authorization: this.session,
     });
   }
 
   async updateUsername(newUsername: string) {
-    return ReqHelper.get(this.server.API(Kit.PROFILE, 1, `users/~/username`).toString(), {
+    return ReqHelper.get(this.server.API(Kit.PROFILE, 1, `users/~/username`), {
       authorization: this.session,
       body: {
         username: newUsername,
@@ -334,7 +318,7 @@ export class HarmonyConnection {
   }
 
   async updateStatus(newStatus: UserStatus) {
-    return ReqHelper.get(this.server.API(Kit.PROFILE, 1, `users/~/username`).toString(), {
+    return ReqHelper.get(this.server.API(Kit.PROFILE, 1, `users/~/username`), {
       authorization: this.session,
       body: {
         status: newStatus,
