@@ -1,10 +1,10 @@
 {
   "name": "@harmony-dev/harmony-node-sdk",
-  "version": "1.2.12",
+  "version": "1.2.13",
   "description": "A Node.JS SDK for Harmony",
   "keywords": [],
-  "main": "dist/harmony-node-sdk.umd.js",
-  "module": "dist/harmony-node-sdk.es5.js",
+  "main": "dist/lib/harmony-node-sdk.js",
+  "module": "dist/lib/harmony-node-sdk.js",
   "typings": "dist/types/harmony-node-sdk.d.ts",
   "files": [
     "dist"
@@ -21,8 +21,7 @@
   "scripts": {
     "lint": "tslint  --project tsconfig.json -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
     "prebuild": "rimraf dist",
-    "build": "tsc --module commonjs && rollup -c rollup.config.ts",
-    "start": "rollup -c rollup.config.ts -w",
+    "build": "tsc",
     "test": "jest --coverage",
     "test:watch": "jest --coverage --watch",
     "test:prod": "npm run lint && npm run test -- --no-cache",
@@ -84,9 +83,6 @@
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
-    "@rollup/plugin-commonjs": "^13.0.0",
-    "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^8.0.1",
     "@types/isomorphic-form-data": "^2.0.0",
     "@types/jest": "^26.0.0",
     "@types/node": "^14.0.13",
@@ -107,10 +103,6 @@
     "prompt": "^1.0.0",
     "replace-in-file": "^6.1.0",
     "rimraf": "^3.0.2",
-    "rollup": "^2.17.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-sourcemaps": "^0.6.2",
-    "rollup-plugin-typescript2": "^0.27.1",
     "semantic-release": "^17.0.8",
     "shelljs": "^0.8.3",
     "ts-jest": "^26.1.0",
