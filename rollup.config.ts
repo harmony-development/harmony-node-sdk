@@ -16,7 +16,7 @@ export default {
     { file: pkg.module, format: 'es', sourcemap: true },
   ],
   // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
-  external: ['ws', 'url-parse', 'isomorphic-ws', 'isomorphic-fetch', 'form-data'],
+  external: ['ws', 'url-parse', 'isomorphic-ws', 'isomorphic-fetch', 'isomorphic-form-data'],
   watch: {
     include: 'src/**',
   },

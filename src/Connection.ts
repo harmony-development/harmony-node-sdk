@@ -1,6 +1,6 @@
 import { HomeServer, Kit } from './HomeServer';
 import EventEmitter from 'eventemitter3';
-import FormData from 'form-data';
+import FormData from 'isomorphic-form-data';
 import WebSocket, { CloseEvent, OpenEvent } from 'isomorphic-ws';
 import { ReqHelper } from './reqHelper';
 import { IAction, IEmbed } from './Embeds';

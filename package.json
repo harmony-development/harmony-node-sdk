@@ -1,6 +1,6 @@
 {
   "name": "@harmony-dev/harmony-node-sdk",
-  "version": "1.2.11",
+  "version": "1.2.12",
   "description": "A Node.JS SDK for Harmony",
   "keywords": [],
   "main": "dist/harmony-node-sdk.umd.js",
@@ -87,6 +87,7 @@
     "@rollup/plugin-commonjs": "^13.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^8.0.1",
+    "@types/isomorphic-form-data": "^2.0.0",
     "@types/jest": "^26.0.0",
     "@types/node": "^14.0.13",
     "@types/url-parse": "^1.4.3",
@@ -120,8 +121,8 @@
     "typescript": "^3.0.3"
   },
   "dependencies": {
-    "form-data": "^3.0.0",
     "isomorphic-fetch": "^2.2.1",
+    "isomorphic-form-data": "^2.0.0",
     "isomorphic-ws": "^4.0.1",
     "url-parse": "^1.4.7",
     "ws": "^7.3.0"
