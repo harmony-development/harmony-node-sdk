@@ -1,6 +1,6 @@
 {
   "name": "@harmony-dev/harmony-node-sdk",
-  "version": "1.2.13",
+  "version": "1.2.14",
   "description": "A Node.JS SDK for Harmony",
   "keywords": [],
   "main": "dist/lib/harmony-node-sdk.js",

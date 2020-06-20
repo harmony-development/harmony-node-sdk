@@ -15,24 +15,24 @@ export class HomeServer {
   }
 
   toURL(): URL {
-    const url = new URL(this.host);
+    const url = new URL(this.host, {});
     return url;
   }
 
   API(kit: Kit, version: number, path: string): URL {
-    const url = new URL(this.host);
+    const url = new URL(this.host, {});
     url.set('pathname', `/api/${kit}/v${version}/${path}`);
     return url;
   }
 
   protocol(path: string): URL {
-    const url = new URL(this.host);
+    const url = new URL(this.host, {});
     url.set('pathname', `/api/protocol/${path}`);
     return url;
   }
 
   getSocketPath(): URL {
-    const url = new URL(this.host);
+    const url = new URL(this.host, {});
     url.set('protocol', url.protocol === 'https:' ? 'wss:' : 'ws');
     url.set('pathname', '/api/socket');
     return url;
