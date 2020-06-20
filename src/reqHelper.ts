@@ -52,7 +52,7 @@ export class ReqHelper {
     });
     const data = await response.json();
     if (data.message && !response.ok) {
-      throw new Error(data);
+      throw data;
     }
     return data as T;
   }
