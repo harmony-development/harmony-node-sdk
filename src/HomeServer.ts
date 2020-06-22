@@ -31,9 +31,8 @@ export class HomeServer {
   }
 
   getSocketPath(): URL {
-    const url = new URL(this.host);
+    const url = this.protocol('socket');
     url.protocol = url.protocol === 'https:' ? 'wss:' : 'ws:';
-    url.pathname = '/api/socket';
     return url;
   }
 
