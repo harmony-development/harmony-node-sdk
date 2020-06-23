@@ -89,6 +89,9 @@ export class HarmonyConnection {
       const parsed = JSON.parse(ev.data);
       this.events.emit(parsed['message'], parsed['data']);
     });
+    this.ws.addEventListener('error', (ev) => {
+      this.events.emit(SocketEvent.SOCKET_ERROR, ev.error);
+    });
     this.ws.addEventListener('close', (ev) => this.events.emit(SocketEvent.SOCKET_CLOSE, ev));
     this.ws.addEventListener('open', (ev) => this.events.emit(SocketEvent.SOCKET_OPEN, ev));
   }
