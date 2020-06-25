@@ -51,6 +51,7 @@ export class HomeServer {
   async loginWithEmail(email: string, password: string) {
     return ReqHelper.post<{
       session: string;
+      user_id: string;
     }>(this.protocol('login'), {
       body: {
         email,
@@ -62,6 +63,7 @@ export class HomeServer {
   async loginWithToken(origin: HomeServer, token: string) {
     return ReqHelper.post<{
       session: string;
+      user_id: string;
     }>(this.protocol('login'), {
       body: {
         domain: origin.toURL().toString(),

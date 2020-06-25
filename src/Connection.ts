@@ -46,9 +46,10 @@ interface IGetInvitesData {
 }
 
 interface IGetUserData {
-  username: string;
-  useravatar: string;
-  userstatus: string;
+  user_name: string;
+  user_avatar: string;
+  user_status: string;
+  guild_list?: string;
 }
 
 enum UserStatus {
