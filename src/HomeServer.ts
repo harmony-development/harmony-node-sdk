@@ -39,6 +39,7 @@ export class HomeServer {
   async register(email: string, username: string, password: string) {
     return ReqHelper.post<{
       session: string;
+      user_id: string;
     }>(this.protocol('register'), {
       body: {
         email,
