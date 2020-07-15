@@ -52,6 +52,11 @@ interface IGetUserData {
   guild_list?: string;
 }
 
+interface IForeignGuild {
+  homeServer: string;
+  guildID: string;
+}
+
 enum UserStatus {
   ONLINE,
   STREAMING,
@@ -151,6 +156,37 @@ export class HarmonyConnection {
       }[]
     >(this.server.API(Kit.PROFILE, 1, `users/~/guilds`), {
       authorization: this.session,
+    });
+  }
+
+  async moveGuild(target: IForeignGuild, before: IForeignGuild, after: IForeignGuild) {
+    return ReqHelper.patch(this.server.API(Kit.PROFILE, 1, `users/~/guild/move`), {
+      body: {
+        TargetGuildID: target.guildID,
+        TargetHomeserver: target.homeServer,
+        BeforeGuild: before.guildID,
+        BeforeHomeserver: before.homeServer,
+        AfterGuild: after.guildID,
+        AfterHomeserver: after.homeServer,
+      },
+    });
+  }
+
+  async removeGuildFromList(target: IForeignGuild) {
+    return ReqHelper.delete(this.server.API(Kit.PROFILE, 1, `users/~/guild/remove`), {
+      body: {
+        GuildID: target.guildID,
+        Homeserver: target.homeServer,
+      },
+    });
+  }
+
+  async addGuildToList(target: IForeignGuild) {
+    return ReqHelper.put(this.server.API(Kit.PROFILE, 1, `users/~/guild/add`), {
+      body: {
+        GuildID: target.guildID,
+        Homeserver: target.homeServer,
+      },
     });
   }
 
