@@ -97,6 +97,17 @@ export class HarmonyConnection {
     this.ws.addEventListener('open', (ev) => this.events.emit(SocketEvent.SOCKET_OPEN, ev));
   }
 
+  async connect(target: string) {
+    return ReqHelper.get<{
+      Token: string;
+    }>(this.server.protocol('connect'), {
+      authorization: this.session,
+      params: {
+        target,
+      },
+    });
+  }
+
   async createGuild(guildName: string) {
     return ReqHelper.post<{
       guild: string;
