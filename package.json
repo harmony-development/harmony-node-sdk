@@ -1,6 +1,6 @@
 {
   "name": "@harmony-dev/harmony-node-sdk",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A Node.JS SDK for Harmony",
   "keywords": [],
   "main": "dist/lib/harmony-node-sdk.js",
@@ -21,7 +21,6 @@
   "scripts": {
     "build": "./genprotos.sh",
     "commit": "git-cz",
-    "precommit": "lint-staged",
     "prepublish": "./genprotos.sh"
   },
   "config": {
