@@ -1,14 +1,8 @@
 {
   "name": "@harmony-dev/harmony-node-sdk",
-  "version": "2.0.2",
+  "version": "2.0.5",
   "description": "A Node.JS SDK for Harmony",
   "keywords": [],
-  "main": "dist/lib/harmony-node-sdk.js",
-  "module": "dist/lib/harmony-node-sdk.js",
-  "typings": "dist/types/harmony-node-sdk.d.ts",
-  "files": [
-    "dist"
-  ],
   "author": "Harmony Development",
   "repository": {
     "type": "git",
@@ -38,10 +32,13 @@
     "@commitlint/config-conventional": "^8.3.4",
     "commitizen": "^4.1.2",
     "cz-conventional-changelog": "^3.2.0",
-    "ts-protoc-gen": "^0.12.0"
+    "grpc-tools": "^1.9.0",
+    "ts-protoc-gen": "^0.12.0",
+    "typescript": "^3.9.7"
   },
   "dependencies": {
     "@types/google-protobuf": "^3.7.2",
-    "google-protobuf": "^4.0.0-rc.1"
+    "google-protobuf": "^4.0.0-rc.1",
+    "grpc": "^1.24.3"
   }
 }

@@ -1,5 +1,5 @@
 // package: protocol.foundation.v1
-// file: protocol/foundation/v1/foundation.proto
+// file: foundation/v1/foundation.proto
 
 import * as jspb from "google-protobuf";
 import * as google_protobuf_empty_pb from "google-protobuf/google/protobuf/empty_pb";

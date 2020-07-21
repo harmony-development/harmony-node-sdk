@@ -1,4 +1,4 @@
-// source: protocol/foundation/v1/foundation.proto
+// source: foundation/v1/foundation.proto
 /**
  * @fileoverview
  * @enhanceable

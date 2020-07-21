@@ -1,4 +1,4 @@
-// source: protocol/core/v1/core.proto
+// source: core/v1/core.proto
 /**
  * @fileoverview
  * @enhanceable

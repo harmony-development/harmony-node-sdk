@@ -1,5 +1,5 @@
 // package: protocol.profile.v1
-// file: protocol/profile/v1/profile.proto
+// file: profile/v1/profile.proto
 
 import * as jspb from "google-protobuf";
 import * as google_protobuf_empty_pb from "google-protobuf/google/protobuf/empty_pb";

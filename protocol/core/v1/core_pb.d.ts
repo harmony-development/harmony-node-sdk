@@ -1,5 +1,5 @@
 // package: protocol.core.v1
-// file: protocol/core/v1/core.proto
+// file: core/v1/core.proto
 
 import * as jspb from "google-protobuf";
 import * as google_protobuf_empty_pb from "google-protobuf/google/protobuf/empty_pb";

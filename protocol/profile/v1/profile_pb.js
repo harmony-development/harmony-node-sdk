@@ -1,4 +1,4 @@
-// source: protocol/profile/v1/profile.proto
+// source: profile/v1/profile.proto
 /**
  * @fileoverview
  * @enhanceable

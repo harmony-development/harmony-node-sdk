@@ -1,0 +1,5 @@
+protobufs/
+.vscode/
+genprotos.sh
+.editorconfig
+.gitmodules
